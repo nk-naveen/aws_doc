@@ -1,0 +1,21 @@
+IAM
+1.Create IAM user attach user to a group with create a policy with just s3 read access. Attach the policy to the group
+
+Step 1: created a user dg_intern_naveen.
+Step 2: created a group s3_access_group with administrator permissions.
+Step 3: added dg_intern_naveen user to s3_access_group.
+Step 4: created a policy s3_read_access with s3 read access permissions.
+Step 5: Attached the s3_read_access policy to the group s3_access_group.
+
+2.Create a role which has read access to ec2 resources. Using aws cli assume the role and list out the ec2 instances
+Step 1: created a role ec2_rescource_read_access which has read access to ec2 resource
+Step 2: Using aws cli assume the role and list out the ec2 instances
+	- Aws configuration:
+	    >> aws configure
+	- Listing Instances:
+	    >> aws ec2 describe-instances
+	- Ec2 instances:
+	    >> aws ec2 describe-instances --output table --query 'Reservations[].Instances[].Tags[?Key==`Name`].Value'
+
+
+
