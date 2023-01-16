@@ -4,7 +4,7 @@ IAM
 Step 1: created a user dg_intern_naveen.
 Step 2: created a group s3_access_group with administrator permissions.
 Step 3: added dg_intern_naveen user to s3_access_group.
-Step 4: created a policy s3_read_access with s3 read access permissions.p['09nnnnnnnnnnnnnnnnnnnn']PPPPPPPPPPPPPPPPPPPPPPPP
+Step 4: created a policy s3_read_access with s3 read access permissions.
 Step 5: Attached the s3_read_access policy to the group s3_access_group.
 
 2.Create a role which has read access to ec2 resources. Using aws cli assume the role and list out the ec2 instances
@@ -18,6 +18,35 @@ Step 2: Using aws cli assume the role and list out the ec2 instances
 	    >> aws ec2 describe-instances --output table --query 'Reservations[].Instances[].Tags[?Key==`Name`].Value'
 
 
-3. 
+3. Create an IAM role for account A which has access to EC2 and try to use that
+IAM role in account B using STS, try to list running EC2 instances in account A in
+AWS cli
 
-arn:aws:iam::979923007628:root
+Step 1: Create IAM role "ec2-read_access" in account A
+		- select create role and choose aws account
+		- click another account and give Account ID
+		- attach "AmazonEC2ReadOnlyAccess" policy 
+		- review and create
+
+Step 2: Goto account B and Create IAM role "sts-assume_role" 
+		- click on inline policy and enter following policy
+			- 	{
+			    "Version": "2012-10-17",
+			    "Statement": {
+			        "Effect": "Allow",
+			        "Action": "sts:AssumeRole",
+			        "Resource": "arn:aws:iam::269764929305:role/ec2-read_access"
+			    	}
+				}	
+		- Save 
+		
+Step 3 : Goto aws cli and create a session with assume role
+		- aws sts assume-role --role-arn "arn:aws:iam::269764929305:role/ec2-read_access" --role-session-name "ec2-access"		
+		- we ll get the output of temporary security credentials , copy these creds and set.
+		  - set like this 
+			  	$ export AWS_ACCESS_KEY_ID=ASIAXVB5JUJ6DHZSQM5K
+				$ export AWS_SECRET_ACCESS_KEY=7p/V4ZIAFM2Ia1G4/Kqus86a8vOHWHRaK97k7toc
+				$ export AWS_SESSION_TOKEN=IQoJb3JpZ2luX2VjEHs...==		
+
+		- now list the ec2 instances
+			- aws ec2 describe-instances		
