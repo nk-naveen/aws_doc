@@ -50,3 +50,35 @@ Step 3 : Goto aws cli and create a session with assume role
 
 		- now list the ec2 instances
 			- aws ec2 describe-instances		
+
+
+Advanced
+1. create instance IAM profile and attach to instance
+
+Step 1 : Goto to IAM Policies and click create policy with some inline content
+		- {
+		    "Version": "2012-10-17",
+		    "Statement": [
+		        {
+		            "Action": [
+		                "s3:Get*",
+		                "s3:List*"
+		            ],
+		            "Effect": "Allow",
+		            "Resource": "*"
+		        }
+		    ]
+		}
+
+		- give name to the policy and create
+
+Step 2 : Goto roles and create a role 
+		
+		- select ec2 in use cases and in the list of policies, select the check box next to the policy you just created.
+		- give name and tags 
+		- review and create 
+
+Step 3 : select this role when creating a ec2 instance 		
+
+
+
