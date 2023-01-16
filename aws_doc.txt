@@ -78,7 +78,7 @@ Step 2 : Goto roles and create a role
 		- give name and tags 
 		- review and create 
 
-Step 3 : select this role when creating a ec2 instance 		
+Step 3 : select this role when creating a ec2 instance.		
 
 
 
